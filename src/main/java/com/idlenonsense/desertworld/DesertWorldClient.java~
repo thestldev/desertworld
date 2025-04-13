@@ -1,0 +1,38 @@
+package com.idlenonsense.desertworld;
+
+import com.idlenonsense.desertworld.entity.ModEntities;
+import com.idlenonsense.desertworld.entity.client.*;
+import com.idlenonsense.desertworld.scripts.KeyInputs;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.entity.EntityPickInteractionAware;
+import net.minecraft.client.render.entity.model.*;
+
+public class DesertWorldClient implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        KeyInputs.register();
+
+        EntityRendererRegistry.register(ModEntities.DESERT_COW, DesertCowRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_COW, CowEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.DESERT_CHICKEN, DesertChickenRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_CHICKEN, ChickenEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.DESERT_GOLEM, DesertGolemRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_GOLEM, SnowGolemEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.DESERT_IRON_GOLEM, DesertIronGolemRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_IRON_GOLEM, IronGolemEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.DESERT_SHEEP, DesertSheepRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_SHEEP, SheepEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.SANDSTORM_ENTITY, SandstormRenderer::new);
+
+        EntityRendererRegistry.register(ModEntities.UFO_ENTITY, UfoRenderer::new);
+
+        
+    }
+}

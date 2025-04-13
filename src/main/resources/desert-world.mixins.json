@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.idlenonsense.desertworld.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "SkinChangeMixin"
+  ]
+}

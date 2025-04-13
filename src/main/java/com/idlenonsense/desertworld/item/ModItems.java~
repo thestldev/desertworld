@@ -1,0 +1,92 @@
+package com.idlenonsense.desertworld.item;
+
+import com.idlenonsense.desertworld.DesertWorld;
+import com.idlenonsense.desertworld.armor.CactusArmorMaterial;
+import com.idlenonsense.desertworld.entity.ModEntities;
+import com.idlenonsense.desertworld.tools.*;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.*;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+
+public class ModItems {
+    public static final FoodComponent DESERT_HEART_COMPONENT = new FoodComponent.Builder()
+            .hunger(4)
+            .saturationModifier(1.2F)
+            .statusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 8000, 0), 1.0F)
+            .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2400, 2), 1.0F)
+            .alwaysEdible()
+            .build();
+
+    public static final Item DESERT_HEART = registerItem("desertheart",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD).food(DESERT_HEART_COMPONENT)));
+    public static final Item ARCTIC_TEAR = registerItem("arctic_tear",
+            new SpawnEggItem(ModEntities.DESERT_GOLEM, 0x97e1f0, 0x3b5b61, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item DIAMOND_LENS = registerItem("diamond_lens",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item DESERT_GLASS = registerItem("desert_glass",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item LIVING_SAND = registerItem("living_sand",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SUN = registerItem("sun",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item VULTURE_WING = registerItem("vulture_wing",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_STICK = registerItem("cactus_stick",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SANDSTORM = registerItem("sandstorm",
+            new SandstormItem(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item MUMMY_HAND = registerItem("mummy_hand",
+            new MummyHandItem(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CURSED_GOLD = registerItem("cursed_gold",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item UFO = registerItem("ufo",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item DOWSING_ROD = registerItem("dowsing_rod",
+            new Item(new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+
+    public static final Item CACTUS_HELMET = registerItem("cactus_helmet",
+            new ArmorItem(CactusArmorMaterial.CACTUS, EquipmentSlot.HEAD, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_CHESTPLATE = registerItem("cactus_chestplate",
+            new ArmorItem(CactusArmorMaterial.CACTUS, EquipmentSlot.CHEST, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_LEGGINS = registerItem("cactus_leggins",
+            new ArmorItem(CactusArmorMaterial.CACTUS, EquipmentSlot.LEGS, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_BOOTS = registerItem("cactus_boots",
+            new ArmorItem(CactusArmorMaterial.CACTUS, EquipmentSlot.FEET, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+
+    public static final Item CACTUS_PICKAXE = registerItem("cactus_pickaxe",
+            new CactusPickaxeTool(CactusToolMaterial.CACTUS, 1, -2.8F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_AXE = registerItem("cactus_axe",
+            new CactusAxeTool(CactusToolMaterial.CACTUS, 7.0F, -3.2F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_SWORD = registerItem("cactus_sword",
+            new CactusSwordTool(CactusToolMaterial.CACTUS, 3, -2.4F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CACTUS_SHOVEL = registerItem("cactus_shovel",
+            new CactusShovelTool(CactusToolMaterial.CACTUS, 1.5F, -3.0F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SANDSTONE_PICKAXE = registerItem("sandstone_pickaxe",
+            new PickaxeItem(CactusToolMaterial.SANDSTONE, 1, -2.8F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SANDSTONE_AXE = registerItem("sandstone_axe",
+            new AxeItem(CactusToolMaterial.SANDSTONE, 6.0F, -3.1F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SANDSTONE_SWORD = registerItem("sandstone_sword",
+            new SwordItem(CactusToolMaterial.SANDSTONE, 3, -2.4F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item SANDSTONE_SHOVEL = registerItem("sandstone_shovel",
+            new ShovelItem(CactusToolMaterial.SANDSTONE, 1.5F, -3.0F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CURSED_PICKAXE = registerItem("cursed_pickaxe",
+            new PickaxeItem(CactusToolMaterial.CURSED, 1, -2.8F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CURSED_AXE = registerItem("cursed_axe",
+            new AxeItem(CactusToolMaterial.CURSED, 6.0F, -3.0F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CURSED_SWORD = registerItem("cursed_sword",
+            new SwordItem(CactusToolMaterial.CURSED, 3, -2.4F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+    public static final Item CURSED_SHOVEL = registerItem("cursed_shovel",
+            new ShovelItem(CactusToolMaterial.CURSED, 1.5F, -3.0F, new FabricItemSettings().group(ModItemGroup.DESERTWORLD)));
+
+    private static Item registerItem(String name, Item item) {
+        return Registry.register(Registry.ITEM, new Identifier(DesertWorld.MOD_ID, name), item);
+    }
+
+    public static void registerModItems() {
+        DesertWorld.LOGGER.info("Регистрация предметов для " + DesertWorld.MOD_ID);
+    }
+}

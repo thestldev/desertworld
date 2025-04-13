@@ -1,0 +1,42 @@
+{
+  "item.desertworld.desertheart": "Сердце пустыни",
+  "item.desertworld.arctic_tear": "Арктическая слеза",
+  "item.desertworld.diamond_lens": "Алмазная линза",
+  "item.desertworld.desert_glass": "Пустынное стекло",
+  "item.desertworld.living_sand": "Живой песок",
+  "item.desertworld.sun": "Солнце",
+  "item.desertworld.vulture_wing": "Перо стервятника",
+  "item.desertworld.cactus_stick": "Кактусовая палка",
+  "item.desertworld.mummy_hand": "Рука мумии",
+  "item.desertworld.sandstorm": "Вихрь",
+  "item.desertworld.cursed_gold": "Проклятое золото",
+  "item.desertworld.ufo": "Летающая тарелка",
+  "item.desertworld.dowsing_rod": "Указатель",
+
+  "item.desertworld.cactus_helmet": "Кактусовый шлем",
+  "item.desertworld.cactus_chestplate": "Кактусовый нагрудник",
+  "item.desertworld.cactus_leggins": "Кактусовые поножи",
+  "item.desertworld.cactus_boots": "Кактусовые ботинки",
+
+  "item.desertworld.cactus_pickaxe": "Кактусовая кирка",
+  "item.desertworld.cactus_axe": "Кактусовый топор",
+  "item.desertworld.cactus_sword": "Кактусовый меч",
+  "item.desertworld.cactus_shovel": "Кактусовая лопата",
+  "item.desertworld.cursed_pickaxe": "Кирка из проклятого золота",
+  "item.desertworld.cursed_axe": "Топор из проклятого золота",
+  "item.desertworld.cursed_sword": "Меч из проклятого золота",
+  "item.desertworld.cursed_shovel": "Лопата из проклятого золота",
+  "item.desertworld.sandstone_pickaxe": "Песчаниковая кирка",
+  "item.desertworld.sandstone_axe": "Песчаниковый топор",
+  "item.desertworld.sandstone_sword": "Песчаниковый меч",
+  "item.desertworld.sandstone_shovel": "Песчаниковая лопата",
+
+  "block.desertworld.cactus_table": "Кактусовый верстак",
+  "block.desertworld.hourglass": "Песочные часы",
+  "block.desertworld.magic_carpet": "Магический ковёр",
+
+  "itemGroup.desertworld.desertworld": "Мир пустыни",
+
+  "key.category.desertworld.desert_world": "Мир пустыни",
+  "key.desertworld.stop_desert_progress": "Остановить/возобновить опустынивание"
+}

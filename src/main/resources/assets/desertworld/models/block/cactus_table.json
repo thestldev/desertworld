@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "desertworld:block/cactus_planks",
+    "east": "desertworld:block/cactus_table_side",
+    "north": "desertworld:block/cactus_table_front",
+    "south": "desertworld:block/cactus_table_side",
+    "up": "desertworld:block/cactus_table_top",
+    "west": "desertworld:block/cactus_table_front"
+  }
+}

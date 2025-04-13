@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "desertworld:living_sand"
+    },
+    "X": {
+      "item": "minecraft:glass"
+    }
+  },
+  "pattern": [
+    "X#X",
+    "X#X",
+    "X#X"
+  ],
+  "result": {
+    "item": "desertworld:hourglass"
+  }
+}

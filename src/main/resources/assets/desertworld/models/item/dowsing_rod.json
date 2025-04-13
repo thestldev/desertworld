@@ -1,0 +1,61 @@
+{
+	"credit": "Made by iliamakar",
+	"textures": {
+		"0": "block/iron_block",
+		"1": "block/gold_block",
+		"particle": "block/iron_block"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 14],
+			"to": [9, 6, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 14]},
+			"faces": {
+				"north": {"uv": [4, 2, 6, 8], "texture": "#1"},
+				"east": {"uv": [4, 2, 6, 8], "texture": "#1"},
+				"south": {"uv": [4, 2, 6, 8], "texture": "#1"},
+				"west": {"uv": [4, 2, 6, 8], "texture": "#1"},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#1"},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 6, -2],
+			"to": [9, 8, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 6, 14]},
+			"faces": {
+				"north": {"uv": [12, 7, 14, 9], "texture": "#0"},
+				"east": {"uv": [0, 10, 16, 12], "texture": "#0"},
+				"south": {"uv": [38, 20, 40, 22], "texture": "#0"},
+				"west": {"uv": [0, 10, 16, 12], "texture": "#0"},
+				"up": {"uv": [12, 16, 10, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 8, 16], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 4.5, -3.75],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 4.5, -3.75],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 5.5, -4.5]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 5.5, -4.5]
+		},
+		"ground": {
+			"rotation": [0, 0, 90],
+			"translation": [-2.5, 0, 0.5]
+		},
+		"gui": {
+			"rotation": [90, 62, -90],
+			"translation": [1, 2.25, 0],
+			"scale": [0.82, 0.82, 0.82]
+		}
+	}
+}

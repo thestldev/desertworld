@@ -1,0 +1,63 @@
+package org.thesalutyt.network.packets;
+
+import com.idlenonsense.desertworld.DesertWorld;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.util.math.BlockPos;
+
+import java.util.UUID;
+
+public class UfoAttackPacket {
+    public static final Identifier ID = new Identifier(DesertWorld.MOD_ID, "ufo_attack");
+
+    public static void send(BlockHitResult hit, int type, UUID ufoID) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeBlockHitResult(hit);
+        buf.writeInt(type);
+
+        buf.writeUuid(ufoID);
+
+        ClientPlayNetworking.send(ID, buf);
+    }
+
+    public static void sendBlockAttack(BlockPos pos, UUID ufo) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeBlockPos(pos);
+        buf.writeUuid(ufo);
+
+        buf.writeInt(AttackType.BLOCK.value());
+
+        ClientPlayNetworking.send(ID, buf);
+    }
+
+    public static void sendEntityAttack(UUID entity, UUID ufo) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeString(entity.toString());
+        buf.writeUuid(ufo);
+
+        buf.writeInt(AttackType.ENTITY.value());
+
+        ClientPlayNetworking.send(ID, buf);
+    }
+
+    public enum AttackType {
+        BLOCK,
+        ENTITY;
+
+        public int value() {
+            return this.ordinal();
+        }
+
+        public static AttackType fromValue(int value) {
+            return values()[value];
+        }
+    }
+}
