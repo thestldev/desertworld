@@ -21,6 +21,13 @@ public class ModBlocks {
     public static final Block MAGIC_CARPET = registerBlock("magic_carpet",
             new Block(FabricBlockSettings.of(Material.GLASS).strength(0.1f).sounds(BlockSoundGroup.GLASS)), ModItemGroup.DESERTWORLD);
 
+    public static final Block TRAP_JAW = registerBlock("trap_jaw",
+            new TrapJawBlock(FabricBlockSettings.of(Material.STONE).strength(2.0f).sounds(BlockSoundGroup.STONE)), ModItemGroup.DESERTWORLD);
+    public static final Block ARROW_TRAP = registerBlock("arrow_trap",
+            new ArrowTrapBlock(FabricBlockSettings.of(Material.METAL).strength(2.0f).sounds(BlockSoundGroup.STONE)), ModItemGroup.DESERTWORLD);
+    public static final Block LASER_TRAP = registerBlock("laser_trap",
+            new LaserTrapBlock(FabricBlockSettings.of(Material.METAL).strength(2.0f).sounds(BlockSoundGroup.STONE)), ModItemGroup.DESERTWORLD);
+    
     private static Block registerBlock(String name, Block block, ItemGroup tab) {
         registerBlockItem(name, block, tab);
         return Registry.register(Registry.BLOCK, new Identifier(DesertWorld.MOD_ID, name), block);
