@@ -34,8 +34,10 @@
   "block.desertworld.cactus_table": "Кактусовый верстак",
   "block.desertworld.hourglass": "Песочные часы",
   "block.desertworld.magic_carpet": "Магический ковёр",
-
-  "itemGroup.desertworld.desertworld": "Мир пустыни",
+  "block.desertworld.cactus_table": "Кактусовый верстак",
+  "block.desertworld.trap_jaw": "Ловушка с челюстями",
+  "block.desertworld.arrow_trap": "Ловушка со стрелами",
+  "block.desertworld.laser_trap": "Ловушка с лазером",
 
   "key.category.desertworld.desert_world": "Мир пустыни",
   "key.desertworld.stop_desert_progress": "Остановить/возобновить опустынивание"
