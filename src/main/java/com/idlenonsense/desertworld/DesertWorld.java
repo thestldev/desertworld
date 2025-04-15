@@ -43,5 +43,8 @@ public class DesertWorld implements ModInitializer {
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> SetProgress.register(dispatcher));
 
 		ModLootTablesModifiers.modifyLootTables();
+
+		// спавн челюстей для trap_jaw
+		ModEventListener.register();
 	}
 }
