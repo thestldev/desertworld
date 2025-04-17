@@ -1,4 +1,4 @@
-package com.idlenonsense.desertworld.events;
+package com.idlenonsense.desertworld.events.listeners;
 
 import com.idlenonsense.desertworld.block.traps.resource.ITrapBlock;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-public class ModEventListener {
+public class TrapsEventListener {
     private static final int SCAN_RANGE = 20;
 
 
