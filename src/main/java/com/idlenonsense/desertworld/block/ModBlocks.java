@@ -1,6 +1,9 @@
 package com.idlenonsense.desertworld.block;
 
 import com.idlenonsense.desertworld.DesertWorld;
+import com.idlenonsense.desertworld.block.traps.ArrowTrapBlock;
+import com.idlenonsense.desertworld.block.traps.LaserTrapBlock;
+import com.idlenonsense.desertworld.block.traps.TrapJawBlock;
 import com.idlenonsense.desertworld.item.ModItemGroup;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
