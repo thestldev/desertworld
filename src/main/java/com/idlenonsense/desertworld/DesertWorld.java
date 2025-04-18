@@ -4,6 +4,7 @@ import com.idlenonsense.desertworld.block.ModBlocks;
 import com.idlenonsense.desertworld.entity.ModEntities;
 import com.idlenonsense.desertworld.entity.SandstormEntity;
 import com.idlenonsense.desertworld.entity.client.UfoEntity;
+import com.idlenonsense.desertworld.events.ModEventListener;
 import com.idlenonsense.desertworld.events.ServerTickEvent;
 import com.idlenonsense.desertworld.events.impl.AbilitiesEventImpl;
 import com.idlenonsense.desertworld.events.listeners.StepBlockListener;
