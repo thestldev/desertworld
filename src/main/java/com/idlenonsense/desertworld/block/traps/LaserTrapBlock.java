@@ -71,6 +71,6 @@ public class LaserTrapBlock extends Block implements ITrapBlock {
 
     @Override
     public int getDelay() {
-        return 20;
+        return 5;
     }
 }
