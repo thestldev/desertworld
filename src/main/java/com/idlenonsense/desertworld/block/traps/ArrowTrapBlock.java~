@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 
 public class ArrowTrapBlock extends Block implements ITrapBlock {
-    private int lastUsageTick = 0;
-
     public ArrowTrapBlock(Settings settings) { super(settings); }
     public static void tick(ServerWorld world, BlockPos pos) {
         Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
@@ -55,18 +53,10 @@ public class ArrowTrapBlock extends Block implements ITrapBlock {
     }
 
     @Override
-    public void stepOn(ServerWorld world, PlayerEntity player, BlockPos pos) {
-
-    }
-
-    @Override
-    public void trapActiveTick(ServerWorld world, PlayerEntity player, BlockPos pos) {
-        int currentTick = world.getServer().getTicks();
-
-        if (currentTick - lastUsageTick < getDelay()) return;
-        lastUsageTick = currentTick;
-
-        tick(world, pos);
+    public void trapActiveTick(World world, PlayerEntity player, BlockPos pos) {
+        if (world.isClient) return;
+        if (!(world instanceof ServerWorld)) return;
+        tick((ServerWorld) world, pos);
     }
 
     @Override

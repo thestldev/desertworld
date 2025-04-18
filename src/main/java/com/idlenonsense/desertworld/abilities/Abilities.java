@@ -29,6 +29,17 @@ public class Abilities {
         return false;
     }
 
+    public float getPercent(String name) {
+        for (Ability ability : abilities) {
+            if (ability instanceof SpecialAbility specialAbility) {
+                if (specialAbility.getName().equals(name)) {
+                    return specialAbility.getPercent();
+                }
+            }
+        }
+        return 0;
+    }
+
     public void set(String name, boolean enabled) {
         for (Ability ability : abilities) {
             if (ability.getName().equals(name)) {
@@ -37,11 +48,12 @@ public class Abilities {
         }
     }
 
-    public void set(float percent, boolean set) {
+    public void set(String name, float percent, boolean set) {
         for (Ability ability : abilities) {
-            if (ability instanceof SpecialAbility specialAbility) {
-                if (specialAbility.getPercent() == (int)percent) {
-                    specialAbility.setEnabled(set);
+            if (ability.getName().equals(name)) {
+                ability.setEnabled(set);
+                if (ability instanceof SpecialAbility specialAbility) {
+                    specialAbility.setPercent((int) percent);
                 }
             }
         }

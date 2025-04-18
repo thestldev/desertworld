@@ -1,5 +1,6 @@
 package com.idlenonsense.desertworld.block.traps;
 
+import com.idlenonsense.desertworld.block.traps.resource.ITrapBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,9 +12,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.World;
+
 import java.util.List;
 
-public class LaserTrapBlock extends Block {
+public class LaserTrapBlock extends Block implements ITrapBlock {
+    private int lastUsageTick = 0;
+
     public LaserTrapBlock(Settings settings) { super(settings); }
     public static void tick(ServerWorld world, BlockPos pos) {
         Vec3d origin = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
@@ -48,5 +53,24 @@ public class LaserTrapBlock extends Block {
                 }
             }
         }
+    }
+
+    @Override
+    public void stepOn(ServerWorld world, PlayerEntity player, BlockPos pos) {
+
+    }
+
+    @Override
+    public void trapActiveTick(ServerWorld world, PlayerEntity player, BlockPos pos) {
+        int currentTick = world.getServer().getTicks();
+
+        if (currentTick - lastUsageTick < getDelay()) return;
+        lastUsageTick = currentTick;
+        tick(world, pos);
+    }
+
+    @Override
+    public int getDelay() {
+        return 20;
     }
 }

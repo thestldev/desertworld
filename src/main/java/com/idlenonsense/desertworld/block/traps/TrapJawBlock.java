@@ -1,18 +1,18 @@
 package com.idlenonsense.desertworld.block.traps;
+import com.idlenonsense.desertworld.block.traps.resource.ITrapBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.EvokerFangsEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class TrapJawBlock extends Block {
+public class TrapJawBlock extends Block implements ITrapBlock {
+    private int lastUsageTick = 0;
 
     public TrapJawBlock(Settings settings) { super(settings); }
 
@@ -39,23 +39,46 @@ public class TrapJawBlock extends Block {
 //    }
 
     public static void spawnFangsAt(World world, BlockPos pos) {
-        if (!world.isClient) {
-            MinecraftServer server = world.getServer();
-            if (server != null) {
-                double x = pos.getX() + 0.5;
-                double y = pos.getY() + 1;
-                double z = pos.getZ() + 0.5;
+        if (world.isClient) return;
+        MinecraftServer server = world.getServer();
+        if (server == null) return;
+        spawnFangsEntity((ServerWorld) world, pos);
+    }
 
-                // библиотеки для использования сущности evoker_fangs напрямую тоже не нашёл
-                // поэтому вызов команды
-                String command = String.format(java.util.Locale.ROOT, "summon minecraft:evoker_fangs %.1f %.1f %.1f", x, y, z);
-                ServerCommandSource source = server.getCommandSource().withPosition(new Vec3d(x, y, z)).withSilent();
-                try {
-                    server.getCommandManager().getDispatcher().execute(command, source);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+    private static void spawnFangsEntity(ServerWorld serverWorld, BlockPos pos) {
+        EvokerFangsEntity fangs = new EvokerFangsEntity(EntityType.EVOKER_FANGS, serverWorld);
+        fangs.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+        serverWorld.spawnEntity(fangs);
+    }
+
+    @Deprecated
+    private static void spawnFangsCommand(ServerWorld serverWorld, BlockPos pos) {
+        String command = String.format("summon minecraft:evoker_fangs %d %d %d", pos.getX(), pos.getY() + 1, pos.getZ());
+        Vec3d position = new Vec3d(pos.getX(), pos.getY() + 1, pos.getZ());
+        ServerCommandSource source = serverWorld.getServer().getCommandSource().withPosition(position);
+        try {
+            serverWorld.getServer().getCommandManager().getDispatcher().execute(command, source);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void stepOn(ServerWorld world, PlayerEntity player, BlockPos pos) {
+        int currentTick = world.getServer().getTicks();
+
+        if (currentTick - lastUsageTick < getDelay()) return;
+        lastUsageTick = currentTick;
+        spawnFangsAt(world, pos);
+    }
+
+    @Override
+    public void trapActiveTick(ServerWorld world, PlayerEntity player, BlockPos pos) {
+
+    }
+
+    @Override
+    public int getDelay() {
+        return 15;
     }
 }
