@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.thesalutyt.utils.SkinManager;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin implements ICurrencyProvider, IAbilitiesProvider {
@@ -18,12 +19,14 @@ public abstract class PlayerEntityMixin implements ICurrencyProvider, IAbilities
     public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         DesertCurrency.getInstance().write(nbt);
         Abilities.getInstance().write(nbt);
+        SkinManager.writeNbt(nbt);
     }
 
     @Inject(at = @At("RETURN"), method = "readCustomDataFromNbt")
     public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         DesertCurrency.getInstance().read(nbt);
         Abilities.getInstance().read(nbt);
+        SkinManager.readNbt(nbt);
     }
 
     @Unique

@@ -24,6 +24,7 @@ import java.util.List;
 public class AbilitiesEventImpl {
     private static final int SANDSTONE_DELAY = 20;
     private static int lastSandstoneTick = 0;
+    private static double cachedHealth;
 
     public static void register() {
         Abilities.getInstance().addAbility(
@@ -36,17 +37,27 @@ public class AbilitiesEventImpl {
     private static void sandstoneStepOn(ServerWorld world, PlayerEntity player, BlockPos pos, Block block) {
         float currentPercent = Abilities.getInstance().getPercent("sandstone");
 
-        if (!block.getDefaultState().equals(Blocks.SANDSTONE.getDefaultState())) {
-            if (!(currentPercent > 0) || world.getTime() - lastSandstoneTick < SANDSTONE_DELAY) return;
-            affectSandstone(world, currentPercent - 1);
-            return;
-        }
+        System.out.println("!! cached health: " + cachedHealth + ", current health: " + player.getHealth());
         if (world.getTime() - lastSandstoneTick < SANDSTONE_DELAY) return;
 
-        affectSandstone(world, currentPercent + 1);
+        if (cachedHealth == 0) cachedHealth = player.getHealth();
+        if (cachedHealth < player.getHealth()) {
+            cachedHealth = player.getHealth();
+            return;
+        }
+
+        if (cachedHealth - player.getHealth() >= 2) {
+            affectSandstone(world, currentPercent - 1, player);
+            cachedHealth = player.getHealth();
+            return;
+        }
+
+        if (!block.getDefaultState().equals(Blocks.SANDSTONE.getDefaultState())) return;
+
+        affectSandstone(world, currentPercent + 1, player);
     }
 
-    private static void affectSandstone(ServerWorld world, float percent) {
+    private static void affectSandstone(ServerWorld world, float percent, PlayerEntity player) {
         float currentPercent = Abilities.getInstance().getPercent("sandstone");
         if (percent < 0 || percent > 5) return;
         if (currentPercent == percent) return;
@@ -54,6 +65,8 @@ public class AbilitiesEventImpl {
         lastSandstoneTick = (int) world.getTime();
 
         Abilities.getInstance().set("sandstone", percent, true);
+
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, (int) percent/3, false, false));
         processSkin(percent);
     }
 
