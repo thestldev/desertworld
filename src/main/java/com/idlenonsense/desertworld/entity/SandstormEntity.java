@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class SandstormEntity extends PathAwareEntity {
     private int age = 0;
     public float size = 6.0F;

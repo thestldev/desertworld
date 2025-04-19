@@ -15,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.UUID;
 
+import static org.thesalutyt.utils.UfoAttackContainer.jsonRequestEncoder;
+
 public class UfoAttackPacket {
     public static final Identifier ID = new Identifier(DesertWorld.MOD_ID, "ufo_attack");
 
@@ -30,20 +32,14 @@ public class UfoAttackPacket {
 
     public static void sendBlockAttack(BlockPos pos, UUID ufo) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeBlockPos(pos);
-        buf.writeUuid(ufo);
-
-        buf.writeInt(AttackType.BLOCK.value());
+        buf.writeString(jsonRequestEncoder(AttackType.BLOCK, pos, ufo));
 
         ClientPlayNetworking.send(ID, buf);
     }
 
     public static void sendEntityAttack(UUID entity, UUID ufo) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeString(entity.toString());
-        buf.writeUuid(ufo);
-
-        buf.writeInt(AttackType.ENTITY.value());
+        buf.writeString(jsonRequestEncoder(AttackType.ENTITY, entity, ufo));
 
         ClientPlayNetworking.send(ID, buf);
     }

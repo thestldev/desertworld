@@ -6,6 +6,7 @@ import com.idlenonsense.desertworld.entity.SandstormEntity;
 import com.idlenonsense.desertworld.entity.client.UfoEntity;
 import com.idlenonsense.desertworld.events.ServerTickEvent;
 import com.idlenonsense.desertworld.events.impl.AbilitiesEventImpl;
+import com.idlenonsense.desertworld.events.listeners.BreakBlockListener;
 import com.idlenonsense.desertworld.events.listeners.StepBlockListener;
 import com.idlenonsense.desertworld.events.listeners.TrapsEventListener;
 import com.idlenonsense.desertworld.gui.SetProgress;
@@ -34,6 +35,7 @@ public class DesertWorld implements ModInitializer {
 		ServerTickEvent.register();
 		TrapsEventListener.register();
 		StepBlockListener.register();
+		BreakBlockListener.register();
 		AbilitiesEventImpl.register();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.DESERT_SHEEP, SheepEntity.createSheepAttributes());

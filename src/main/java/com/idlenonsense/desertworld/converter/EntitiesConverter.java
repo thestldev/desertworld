@@ -3,6 +3,7 @@ package com.idlenonsense.desertworld.converter;
 import com.idlenonsense.desertworld.entity.ModEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;

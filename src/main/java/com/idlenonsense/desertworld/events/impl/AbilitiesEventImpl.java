@@ -1,14 +1,25 @@
 package com.idlenonsense.desertworld.events.impl;
 
 import com.idlenonsense.desertworld.abilities.Abilities;
+import com.idlenonsense.desertworld.events.ServerTickEvent;
+import com.idlenonsense.desertworld.events.listeners.BreakBlockListener;
 import com.idlenonsense.desertworld.events.listeners.StepBlockListener;
+import com.idlenonsense.desertworld.item.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.thesalutyt.utils.SkinManager;
+
+import java.util.List;
 
 public class AbilitiesEventImpl {
     private static final int SANDSTONE_DELAY = 20;
@@ -53,5 +64,12 @@ public class AbilitiesEventImpl {
         }
 
         SkinManager.setCurrentSkin(new Identifier("desertworld", "textures/entity/abilities/uni_sandstone" + (int)percent + ".png"));
+    }
+
+    private static boolean isCursedTool(ItemStack stack) {
+        return stack.getItem().equals(ModItems.CURSED_PICKAXE)
+                || stack.getItem().equals(ModItems.CURSED_AXE)
+                || stack.getItem().equals(ModItems.CURSED_SHOVEL)
+                || stack.getItem().equals(ModItems.CURSED_SWORD);
     }
 }

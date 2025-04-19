@@ -45,18 +45,6 @@ public class PlayerAbilities {
 
     public static void registerModAbilities() {
         DesertWorld.LOGGER.info("Регистрация возможностей для " + DesertWorld.MOD_ID);
-
-        PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
-            ItemStack heldItem = player.getMainHandStack();
-            boolean increaseDrop = heldItem.getItem() == ModItems.CURSED_PICKAXE || heldItem.getItem() == ModItems.CURSED_AXE || heldItem.getItem() == ModItems.CURSED_SHOVEL;
-            if (increaseDrop) {
-                List<ItemStack> drops = Block.getDroppedStacks(state, (ServerWorld) world, pos, blockEntity, player, heldItem);
-                for (ItemStack drop : drops) {
-                    drop.setCount(drop.getCount() * 3);
-                    Block.dropStack(world, pos, drop);
-                }
-            }
-        });
     }
 
     private static void addAbilities() {

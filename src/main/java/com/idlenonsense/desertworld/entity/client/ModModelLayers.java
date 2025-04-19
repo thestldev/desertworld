@@ -19,6 +19,9 @@ public class ModModelLayers {
 
     public static final EntityModelLayer DESERT_GOLEM =
             new EntityModelLayer(new Identifier(DesertWorld.MOD_ID, "desert_golem"), "main");
+//
+//    public static final EntityModelLayer ALIEN_WITCH =
+//            new EntityModelLayer(new Identifier(DesertWorld.MOD_ID, "alien_witch"), "main");
 
 
     public static final EntityModelLayer DESERT_IRON_GOLEM =
