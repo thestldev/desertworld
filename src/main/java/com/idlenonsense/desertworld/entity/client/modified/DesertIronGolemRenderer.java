@@ -1,4 +1,4 @@
-package com.idlenonsense.desertworld.entity.client;
+package com.idlenonsense.desertworld.entity.client.modified;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

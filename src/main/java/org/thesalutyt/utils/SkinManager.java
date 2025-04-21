@@ -1,5 +1,6 @@
 package org.thesalutyt.utils;
 
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 public class SkinManager {
@@ -30,5 +31,17 @@ public class SkinManager {
      */
     public static void resetSkin() {
         current_skin = null;
+    }
+
+    public static void writeNbt(NbtCompound tag) {
+        if (current_skin != null) {
+            tag.putString("current_skin", current_skin.toString());
+        }
+    }
+
+    public static void readNbt(NbtCompound tag) {
+        if (tag.contains("current_skin")) {
+            current_skin = new Identifier(tag.getString("current_skin"));
+        }
     }
 }

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -36,6 +37,11 @@ public class ModEntities {
             new Identifier(DesertWorld.MOD_ID, "desert_iron_golem"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, IronGolemEntity::new)
                     .dimensions(EntityDimensions.fixed(1.4F, 2.7F)).build());
+//
+//    public static final EntityType<WitchEntity> ALIEN_WITCH = Registry.register(Registry.ENTITY_TYPE,
+//            new Identifier(DesertWorld.MOD_ID, "alien_witch"),
+//            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, WitchEntity::new)
+//                    .dimensions(EntityDimensions.fixed(0.6F, 1.95F)).build());
 
     public static final EntityType<UfoEntity> UFO_ENTITY = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(DesertWorld.MOD_ID, "ufo_entity"),

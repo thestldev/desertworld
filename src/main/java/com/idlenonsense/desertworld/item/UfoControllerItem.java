@@ -37,7 +37,7 @@ public class UfoControllerItem extends Item {
         }
 
         BlockHitResult hit = ((BlockHitResult) user.raycast(10.0D, 0.0F, false));
-        UfoAttackPacket.send(hit, 1, ufoID);
+        UfoAttackPacket.sendBlockAttack(hit.getBlockPos(), ufoID);
     }
 
     private void processServer(World world, PlayerEntity user, Hand hand) {

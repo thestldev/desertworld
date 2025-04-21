@@ -2,11 +2,11 @@ package com.idlenonsense.desertworld;
 
 import com.idlenonsense.desertworld.entity.ModEntities;
 import com.idlenonsense.desertworld.entity.client.*;
+import com.idlenonsense.desertworld.entity.client.modified.*;
 import com.idlenonsense.desertworld.scripts.KeyInputs;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.entity.EntityPickInteractionAware;
 import net.minecraft.client.render.entity.model.*;
 
 public class DesertWorldClient implements ClientModInitializer {
@@ -28,6 +28,9 @@ public class DesertWorldClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(ModEntities.DESERT_SHEEP, DesertSheepRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DESERT_SHEEP, SheepEntityModel::getTexturedModelData);
+//
+//        EntityRendererRegistry.register(ModEntities.ALIEN_WITCH, AlienWitchRenderer::new);
+//        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.ALIEN_WITCH, WitchEntityModel::getTexturedModelData);
 
         EntityRendererRegistry.register(ModEntities.SANDSTORM_ENTITY, SandstormRenderer::new);
 
