@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import static com.idlenonsense.desertworld.util.WorldUpdater.BLOCK_PERCENTAGE_AFFECT;
+import static com.idlenonsense.desertworld.bar.DesertBar.RATE_OF_PROGRESS;
 
 public class BlocksConverter {
     public static final List<Block> SAND_LIST = List.of(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.PODZOL);
@@ -50,7 +50,7 @@ public class BlocksConverter {
     }
 
     private static void updateCurrency() {
-        DesertCurrency.getInstance().add(BLOCK_PERCENTAGE_AFFECT);
+        DesertCurrency.getInstance().add(RATE_OF_PROGRESS);
     }
 
     public static void convertBlocks(BlockPos[] blocks, World world) {
