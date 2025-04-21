@@ -1,5 +1,6 @@
 package com.idlenonsense.desertworld.util;
 
+import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.converter.BlocksConverter;
 import com.idlenonsense.desertworld.converter.EntitiesConverter;
 import com.idlenonsense.desertworld.currency.DesertCurrency;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 
 public class WorldUpdater {
     public static final int RADIUS = 3;
-    public static final float BLOCK_PERCENTAGE_AFFECT = 0.00001f;
 
     public static void worldDeserted(BlockPos pos, World world, ServerPlayerEntity player) {
         worldDeserted(pos, world, RADIUS, player);
@@ -21,10 +21,7 @@ public class WorldUpdater {
 
     public static void worldDeserted(BlockPos pos, World world, int radius, ServerPlayerEntity player) {
         try {
-            if (world == null || player == null
-                    || world.isClient
-                    || pos == null
-                    || radius < 1) return;
+            if (world == null || player == null || world.isClient || pos == null || radius < 1) return;
 
             BlocksConverter.convertBlocksWithAffectOnCurrency(pos, world, radius);
             EntitiesConverter.convertEntities(pos, radius, world);
@@ -34,7 +31,7 @@ public class WorldUpdater {
     }
 
     private static void updateCurrency() {
-        updateCurrency(BLOCK_PERCENTAGE_AFFECT);
+        updateCurrency(DesertBar.RATE_OF_PROGRESS);
     }
 
     private static void updateCurrency(float amount) {

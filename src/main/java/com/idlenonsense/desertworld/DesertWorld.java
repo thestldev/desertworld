@@ -1,5 +1,6 @@
 package com.idlenonsense.desertworld;
 
+import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.block.ModBlocks;
 import com.idlenonsense.desertworld.entity.ModEntities;
 import com.idlenonsense.desertworld.entity.SandstormEntity;
@@ -55,5 +56,8 @@ public class DesertWorld implements ModInitializer {
 
 		// спавн челюстей для trap_jaw
 		ModEventListener.register();
+
+		// прогресс бар
+		DesertBar.initBar();
 	}
 }

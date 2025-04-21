@@ -36,6 +36,22 @@ public class ServerTickEvent {
                         );
                     } catch (Exception ignored) {}
                 });
+
+
+//        ServerTickEvents.END_WORLD_TICK.register(world -> {
+//            world.getPlayers().forEach(player -> {
+//                float desertProgress = DesertCurrency.getInstance().get();
+//                DesertBar.update(player, desertProgress);  // Обновляем прогресс в баре
+//            });
+//        });
+
+
+//        ServerTickEvents.END_WORLD_TICK.register(world -> {
+//            world.getPlayers().forEach(player -> {
+//                float desertProgress = DesertCurrency.getInstance().get();
+//                DesertBar.update(player, desertProgress);
+//            });
+//        });
     }
 
     public static void addCallback(ServerTickCallback callback) {
@@ -69,7 +85,11 @@ public class ServerTickEvent {
 
     public static void syncCurrencyWithBar(ServerPlayerEntity player) {
         DesertCurrency currency = DesertCurrency.getInstance();
-        DesertBar.update(player, currency.get());
+        float progress = currency.get();
+
+        //float progress = DesertBar.getPercent();
+
+        DesertBar.update(player, progress);
 
         System.out.println(currency.get());
     }
