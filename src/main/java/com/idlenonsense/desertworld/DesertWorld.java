@@ -2,6 +2,7 @@ package com.idlenonsense.desertworld;
 
 import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.block.ModBlocks;
+import com.idlenonsense.desertworld.currency.DesertCurrency;
 import com.idlenonsense.desertworld.entity.ModEntities;
 import com.idlenonsense.desertworld.entity.SandstormEntity;
 import com.idlenonsense.desertworld.entity.client.UfoEntity;
@@ -16,7 +17,6 @@ import com.idlenonsense.desertworld.item.ModItems;
 import com.idlenonsense.desertworld.scripts.PlayerAbilities;
 import com.idlenonsense.desertworld.util.ModLootTablesModifiers;
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.passive.*;
@@ -57,7 +57,8 @@ public class DesertWorld implements ModInitializer {
 		// спавн челюстей для trap_jaw
 		ModEventListener.register();
 
-		// прогресс бар
-		DesertBar.initBar();
+		// просто на всякий случай
+		DesertCurrency.getInstance().set(0f);
+		DesertBar.setProgress(0f);
 	}
 }

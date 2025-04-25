@@ -1,6 +1,7 @@
 package com.idlenonsense.desertworld.gui;
 
 import com.idlenonsense.desertworld.bar.DesertBar;
+import com.idlenonsense.desertworld.currency.DesertCurrency;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -22,8 +23,10 @@ public class SetProgress {
     private static int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ServerCommandSource source = context.getSource();
         float percent = FloatArgumentType.getFloat(context, "percent");
-        DesertBar.setProgress(Math.min(percent, 100f) * 0.01f);
+        float minP = Math.min(percent, 100f) * 0.01f;
+        DesertBar.setProgress(minP);
         DesertBar.update(source.getPlayer(), DesertBar.getPercent());
+        DesertCurrency.getInstance().set(minP);
         source.sendFeedback(Text.literal("Прогресс опустынивания изменен на " + percent + "%"), false);
 
         return 1;

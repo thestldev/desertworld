@@ -37,7 +37,7 @@ public class AbilitiesEventImpl {
     private static void sandstoneStepOn(ServerWorld world, PlayerEntity player, BlockPos pos, Block block) {
         float currentPercent = Abilities.getInstance().getPercent("sandstone");
 
-        System.out.println("!! cached health: " + cachedHealth + ", current health: " + player.getHealth());
+        //System.out.println("!! cached health: " + cachedHealth + ", current health: " + player.getHealth());
         if (world.getTime() - lastSandstoneTick < SANDSTONE_DELAY) return;
 
         if (cachedHealth == 0) cachedHealth = player.getHealth();
