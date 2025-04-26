@@ -40,14 +40,30 @@ public class UfoEntity extends LivingEntity implements IAnimatable {
     public static DefaultAttributeContainer.Builder createUfoAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10000.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
-                ;
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D);
+    }
+
+    public void moveToPlayer(Vec3d playerPos) {
+        double distance = this.getPos().distanceTo(playerPos);
+
+        if (distance > 10) {
+            double offsetX = (Math.random() - 0.5) * 10;
+            double offsetZ = (Math.random() - 0.5) * 10;
+            Vec3d randomPos = new Vec3d(playerPos.x + offsetX, playerPos.y + 3, playerPos.z + offsetZ);
+            this.setPos(randomPos.x, randomPos.y, randomPos.z);
+        } else {
+            double speed = 0.1;
+            Vec3d direction = playerPos.subtract(this.getPos()).normalize();
+            Vec3d newPos = this.getPos().add(direction.multiply(speed));
+            double targetY = playerPos.y + 3;
+            double currentY = this.getPos().y;
+            double newY = currentY + (targetY - currentY) * speed;
+            this.setPos(newPos.x, newY, newPos.z);
+        }
     }
 
     @Override
-    public void registerControllers(AnimationData animationData) {
-
-    }
+    public void registerControllers(AnimationData animationData) { }
 
     @Override
     public void tick() {
@@ -123,9 +139,7 @@ public class UfoEntity extends LivingEntity implements IAnimatable {
     }
 
     @Override
-    public void equipStack(EquipmentSlot slot, ItemStack stack) {
-
-    }
+    public void equipStack(EquipmentSlot slot, ItemStack stack) { }
 
     @Override
     public EntityDimensions getDimensions(EntityPose pose) {

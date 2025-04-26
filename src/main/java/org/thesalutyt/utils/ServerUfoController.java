@@ -17,12 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public record ServerUfoController(UfoEntity entity, ServerWorld world) {
+public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID playerUuid) {
     private static final List<ServerUfoController> controllers = new ArrayList<>();
 
-    public ServerUfoController(UfoEntity entity, ServerWorld world) {
+    public ServerUfoController(UfoEntity entity, ServerWorld world, UUID playerUuid) {
         this.entity = entity;
         this.world = world;
+        this.playerUuid = playerUuid;
 
         controllers.add(this);
     }
@@ -50,7 +51,7 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world) {
         sendLaserParticles(new BlockPos(from), new BlockPos(to));
     }
 
-    private void sendLaserParticles(BlockPos from, BlockPos to) {
+    public void sendLaserParticles(BlockPos from, BlockPos to) {
         int count = 10;
         BlockPos step = getStepForParticle(from, to, count);
         for (int i = 0; i < count; i++) {
@@ -66,6 +67,14 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world) {
         }
     }
 
+    private static BlockPos getStepForParticle(BlockPos from, BlockPos to, int count) {
+        return new BlockPos(
+                from.getX() + (to.getX() - from.getX()) / count,
+                from.getY() + (to.getY() - from.getY()) / count,
+                from.getZ() + (to.getZ() - from.getZ()) / count
+        );
+    }
+
     private Entity getEntityByPos(BlockPos pos) {
         Box box = new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
         return this.world.getOtherEntities(this.entity, box)
@@ -75,26 +84,29 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world) {
                 .orElseGet(() -> null);
     }
 
-    private static BlockPos getStepForParticle(BlockPos from, BlockPos to, int count) {
-        return new BlockPos(
-                from.getX() + (to.getX() - from.getX()) / count,
-                from.getY() + (to.getY() - from.getY()) / count,
-                from.getZ() + (to.getZ() - from.getZ()) / count
-        );
+    public UUID getPlayerUuid() {
+        return playerUuid;
     }
 
     public static ServerUfoController getControllerByUUID(UUID uuid) {
-        return controllers.stream().filter(c -> c.entity.getUuid().equals(uuid)).findAny().orElse(null);
+        return controllers.stream()
+                .filter(controller -> controller.getPlayerUuid().equals(uuid))
+                .findFirst()
+                .orElse(null);
     }
 
-    public static ServerUfoController createController(UfoEntity entity, ServerWorld world) {
-        return new ServerUfoController(entity, world);
+    public static ServerUfoController createController(UfoEntity entity, ServerWorld world, UUID playerUuid) {
+        return new ServerUfoController(entity, world, playerUuid);
     }
 
-    public static ServerUfoController createUfo(ServerWorld world, BlockPos pos) {
+    public static ServerUfoController createUfo(ServerWorld world, BlockPos pos, UUID playerUuid) {
         UfoEntity entity = new UfoEntity(ModEntities.UFO_ENTITY, world);
         world.spawnEntity(entity);
         entity.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-        return new ServerUfoController(entity, world);
+        ServerUfoController controller = new ServerUfoController(entity, world, playerUuid);
+        controllers.add(controller);
+        //System.out.println("UFO created at: " + pos + " with UUID: " + playerUuid);
+
+        return controller;
     }
 }

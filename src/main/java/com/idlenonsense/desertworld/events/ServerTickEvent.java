@@ -3,6 +3,7 @@ package com.idlenonsense.desertworld.events;
 import com.idlenonsense.desertworld.abilities.Abilities;
 import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.currency.DesertCurrency;
+import com.idlenonsense.desertworld.entity.client.UfoEntity;
 import com.idlenonsense.desertworld.item.ModItems;
 import com.idlenonsense.desertworld.util.WorldUpdater;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -11,6 +12,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import org.thesalutyt.utils.ServerUfoController;
 
 import java.util.LinkedList;
 
@@ -19,17 +21,30 @@ public class ServerTickEvent {
     private static final LinkedList<ServerTickCallback> callbacks = new LinkedList<>();
 
     public static void register() {
-        ServerTickEvents
-                .START_SERVER_TICK
+        ServerTickEvents.START_SERVER_TICK
                 .register(minecraftServer -> {
                     try {
                         if (minecraftServer.getPlayerManager().getPlayerList().isEmpty()) return;
 
                         for (ServerPlayerEntity player : minecraftServer.getPlayerManager().getPlayerList()) {
                             tickPlayer(player);
+                            updateUfoMovement(player);
                         }
                     } catch (Exception ignored) {}
                 });
+    }
+
+    private static void updateUfoMovement(ServerPlayerEntity player) {
+        ServerUfoController controller = ServerUfoController.getControllerByUUID(player.getUuid());
+        //System.out.println("Controller: " + controller);
+        if (controller != null) {
+            //System.out.println("Test2");
+            UfoEntity ufoEntity = controller.entity();
+            if (ufoEntity != null) {
+                //System.out.println("Test3");
+                ufoEntity.moveToPlayer(player.getPos());
+            }
+        }
     }
 
     public static void addCallback(ServerTickCallback callback) {
@@ -65,7 +80,7 @@ public class ServerTickEvent {
         DesertCurrency currency = DesertCurrency.getInstance();
         float progress = currency.get();
         DesertBar.update(player, progress);
-        System.out.println(currency.get());
+        //System.out.println(currency.get());
     }
 
     private static boolean isCursedTool(ItemStack stack) {

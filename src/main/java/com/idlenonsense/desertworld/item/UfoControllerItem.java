@@ -42,18 +42,17 @@ public class UfoControllerItem extends Item {
 
     private void processServer(World world, PlayerEntity user, Hand hand) {
         if (ufoID == null) {
-            createUfo((ServerWorld) world, user.getBlockPos());
+            createUfo((ServerWorld) world, user.getBlockPos(), user.getUuid());
         }
     }
 
-    private void createUfo(ServerWorld world, BlockPos pos) {
+    private void createUfo(ServerWorld world, BlockPos pos, UUID playerUuid) {
         ufoID = ServerUfoController
-                .createUfo(world, pos)
+                .createUfo(world, pos, playerUuid)
                 .uuid();
     }
 
     public UUID getUfoID() {
         return ufoID;
     }
-
 }

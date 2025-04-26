@@ -10,10 +10,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.thesalutyt.network.packets.UfoAttackPacket;
+import org.thesalutyt.utils.ServerUfoController;
 
 import java.util.UUID;
 
@@ -36,7 +38,11 @@ public abstract class EntityMixin {
         if (!(stack.getItem() instanceof UfoControllerItem)) return;
 
         System.out.println("!! sending packet");
+        UUID ufoID = ((UfoControllerItem) stack.getItem()).getUfoID();
+        UfoAttackPacket.sendEntityAttack(this.getUuid(), ufoID);
 
-        UfoAttackPacket.sendEntityAttack(this.getUuid(), ((UfoControllerItem) stack.getItem()).getUfoID());
+        /*Vec3d from = player.getPos().add(0, 1.5, 0);
+        Vec3d to = this.getPos();
+        ServerUfoController.getControllerByUUID(ufoID).sendLaserParticles(from, to);*/
     }
 }
