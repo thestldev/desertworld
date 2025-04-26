@@ -41,14 +41,5 @@ public abstract class EntityMixin {
         UUID playerUuid = player.getUuid();
         UUID ufoID = ((UfoControllerItem) stack.getItem()).getUfoID();
         UfoAttackPacket.sendEntityAttack(this.getUuid(), ufoID, playerUuid);
-
-
-        /*Vec3d from = player.getPos().add(0, 1.5, 0);  // Отправка из положения игрока
-        Vec3d to = hitPos;
-
-        ServerUfoController controller = ServerUfoController.getControllerByUUID(ufoID);
-        if (controller != null) {
-            controller.sendLaserParticles(from, to);
-        }*/
     }
 }

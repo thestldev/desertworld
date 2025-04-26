@@ -41,10 +41,17 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
 
     public void attackEntity(Entity target) {
         target.damage(DamageSource.MAGIC, 2.0F);
+        Vec3d from = entity.getPos().add(0, entity.getHeight() * 0.5, 0); // Центр НЛО
+        Vec3d to = target.getPos().add(0, target.getHeight() * 0.5, 0); // Центр цели
+        sendLaserParticles(from, to);
     }
 
     public void attackBlock(BlockPos pos) {
         world.breakBlock(new BlockPos(pos), false);
+        Vec3d from = entity.getPos();
+        Vec3d to = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
+        sendLaserParticles(from, to);
+        //System.out.println(from + " " + to);
     }
 
     /*private void sendLaserParticles(Vec3d from, Vec3d to) {
@@ -52,6 +59,26 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
     }*/
 
     public void sendLaserParticles(Vec3d from, Vec3d to) {
+        int count = 30;
+        double stepX = (to.x - from.x) / count;
+        double stepY = (to.y - from.y) / count;
+        double stepZ = (to.z - from.z) / count;
+
+        for (int i = 0; i < count; i++) {
+            double x = from.x + stepX * i;
+            double y = from.y + stepY * i;
+            double z = from.z + stepZ * i;
+
+            world.spawnParticles(
+                    ParticleTypes.FLAME, x, y, z,
+                    1,
+                    0.0, 0.0, 0.0,
+                    0.0
+            );
+        }
+    }
+
+    /*public void sendLaserParticles(Vec3d from, Vec3d to) {
         int count = 10;
         BlockPos step = getStepForParticle(from, to, count);
         for (int i = 0; i < count; i++) {
@@ -59,21 +86,18 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
                     ParticleTypes.FLAME,
                     from.getX() + step.getX(),
                     from.getY() + step.getY(),
-                    from.getZ() + step.getZ(),
-                    0.0D,
-                    0.0D,
-                    0.0D
+                    from.getZ() + step.getZ(), 0.0D, 0.0D, 0.0D
             );
         }
-    }
+    }*/
 
-    private static BlockPos getStepForParticle(Vec3d from, Vec3d to, int count) {
+    /*private static BlockPos getStepForParticle(Vec3d from, Vec3d to, int count) {
         return new BlockPos(
                 from.getX() + (to.getX() - from.getX()) / count,
                 from.getY() + (to.getY() - from.getY()) / count,
                 from.getZ() + (to.getZ() - from.getZ()) / count
         );
-    }
+    }*/
 
     private Entity getEntityByPos(BlockPos pos) {
         Box box = new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);

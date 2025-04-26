@@ -63,7 +63,6 @@ public class ServerTickEvent {
         UUID ufoID = ((UfoControllerItem) stack.getItem()).getUfoID();
         ServerUfoController controller = ServerUfoController.getControllerByUUID(ufoID);
         if (controller != null) {
-            // Получаем блок или сущность, по которой кликнул игрок
             HitResult hitResult = player.raycast(10, 0, false);
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 BlockHitResult blockHitResult = (BlockHitResult) hitResult;
