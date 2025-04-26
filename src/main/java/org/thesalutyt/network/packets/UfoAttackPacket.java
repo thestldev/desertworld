@@ -30,16 +30,16 @@ public class UfoAttackPacket {
         ClientPlayNetworking.send(ID, buf);
     }
 
-    public static void sendBlockAttack(BlockPos pos, UUID ufo) {
+    public static void sendBlockAttack(BlockPos pos, UUID ufo, UUID playerUuid) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeString(jsonRequestEncoder(AttackType.BLOCK, pos, ufo));
+        buf.writeString(jsonRequestEncoder(AttackType.BLOCK, pos, ufo, playerUuid));
 
         ClientPlayNetworking.send(ID, buf);
     }
 
-    public static void sendEntityAttack(UUID entity, UUID ufo) {
+    public static void sendEntityAttack(UUID entity, UUID ufo, UUID playerUuid) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeString(jsonRequestEncoder(AttackType.ENTITY, entity, ufo));
+        buf.writeString(jsonRequestEncoder(AttackType.ENTITY, entity, ufo, playerUuid));
 
         ClientPlayNetworking.send(ID, buf);
     }

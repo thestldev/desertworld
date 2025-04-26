@@ -24,7 +24,10 @@ public class UfoAttackHandler {
             UfoAttackContainer container = fromJson(json);
 
             assert container != null;
-            ServerUfoController controller = ServerUfoController.getControllerByUUID(container.getUfo());
+            UUID playerUuid = container.getPlayerUuid();
+            ServerUfoController controller = ServerUfoController.getControllerByUUID(playerUuid);
+
+            //ServerUfoController controller = ServerUfoController.getControllerByUUID(container.getUfo());
 
             if (container instanceof UfoAttackContainer.BlockAttackContainer) {
                 blockAttack(((UfoAttackContainer.BlockAttackContainer) container).getPos(), controller);
@@ -50,10 +53,11 @@ public class UfoAttackHandler {
         String type = el.getAsJsonObject().get("type").getAsString();
         String arg = el.getAsJsonObject().get("arg").getAsString();
         UUID ufoId = UUID.fromString(el.getAsJsonObject().get("ufo").getAsString());
+        UUID playerId = UUID.fromString(el.getAsJsonObject().get("player").getAsString());
 
         return switch (type) {
-            case "block" -> new UfoAttackContainer.BlockAttackContainer(ufoId, blockPosFromString(arg));
-            case "entity" -> new UfoAttackContainer.EntityAttackContainer(ufoId, UUID.fromString(arg));
+            case "block" -> new UfoAttackContainer.BlockAttackContainer(ufoId, playerId, blockPosFromString(arg));
+            case "entity" -> new UfoAttackContainer.EntityAttackContainer(ufoId, playerId, UUID.fromString(arg));
             default -> null;
         };
     }

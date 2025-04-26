@@ -47,11 +47,11 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
         world.breakBlock(new BlockPos(pos), false);
     }
 
-    private void sendLaserParticles(Vec3d from, Vec3d to) {
+    /*private void sendLaserParticles(Vec3d from, Vec3d to) {
         sendLaserParticles(new BlockPos(from), new BlockPos(to));
-    }
+    }*/
 
-    public void sendLaserParticles(BlockPos from, BlockPos to) {
+    public void sendLaserParticles(Vec3d from, Vec3d to) {
         int count = 10;
         BlockPos step = getStepForParticle(from, to, count);
         for (int i = 0; i < count; i++) {
@@ -67,7 +67,7 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
         }
     }
 
-    private static BlockPos getStepForParticle(BlockPos from, BlockPos to, int count) {
+    private static BlockPos getStepForParticle(Vec3d from, Vec3d to, int count) {
         return new BlockPos(
                 from.getX() + (to.getX() - from.getX()) / count,
                 from.getY() + (to.getY() - from.getY()) / count,
@@ -105,7 +105,7 @@ public record ServerUfoController(UfoEntity entity, ServerWorld world, UUID play
         entity.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
         ServerUfoController controller = new ServerUfoController(entity, world, playerUuid);
         controllers.add(controller);
-        //System.out.println("UFO created at: " + pos + " with UUID: " + playerUuid);
+        System.out.println("UFO created at: " + pos + " with UUID: " + playerUuid);
 
         return controller;
     }
