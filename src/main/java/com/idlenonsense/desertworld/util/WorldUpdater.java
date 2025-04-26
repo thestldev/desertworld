@@ -16,25 +16,22 @@ public class WorldUpdater {
     public static final int RADIUS = 3;
 
     public static void worldDeserted(BlockPos pos, World world, ServerPlayerEntity player) {
-        worldDeserted(pos, world, RADIUS, player);
+        worldDeserted(pos, world, RADIUS);
     }
 
-    public static void worldDeserted(BlockPos pos, World world, int radius, ServerPlayerEntity player) {
+    public static void worldDeserted(BlockPos pos, World world, int radius) {
         try {
-            if (world == null || player == null || world.isClient || pos == null || radius < 1) return;
-
+            if (world == null || pos == null || radius < 1) return;
             BlocksConverter.convertBlocksWithAffectOnCurrency(pos, world, radius);
             EntitiesConverter.convertEntities(pos, radius, world);
-        } catch (Exception ignored) {
-
-        }
+        } catch (Exception ignored) { }
     }
 
-    private static void updateCurrency() {
-        updateCurrency(DesertBar.RATE_OF_PROGRESS);
-    }
-
-    private static void updateCurrency(float amount) {
-        DesertCurrency.getInstance().add(amount);
-    }
+//    private static void updateCurrency() {
+//        updateCurrency(DesertBar.RATE_OF_PROGRESS);
+//    }
+//
+//    private static void updateCurrency(float amount) {
+//        DesertCurrency.getInstance().add(amount);
+//    }
 }

@@ -23,17 +23,11 @@ public class ServerTickEvent {
                 .START_SERVER_TICK
                 .register(minecraftServer -> {
                     try {
-                        if (minecraftServer
-                                .getPlayerManager()
-                                .getPlayerList()
-                                .get(0) == null) return;
+                        if (minecraftServer.getPlayerManager().getPlayerList().isEmpty()) return;
 
-                        tickPlayer(
-                                minecraftServer
-                                        .getPlayerManager()
-                                        .getPlayerList()
-                                        .get(0)
-                        );
+                        for (ServerPlayerEntity player : minecraftServer.getPlayerManager().getPlayerList()) {
+                            tickPlayer(player);
+                        }
                     } catch (Exception ignored) {}
                 });
     }

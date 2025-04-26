@@ -63,7 +63,8 @@ public class HourglassBlock extends Block {
                     0.6F,
                     0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F)
             );
-            WorldUpdater.worldDeserted(pos, world, currentRadius, ((ServerPlayerEntity) player));
+            //Потом поправим))
+            //WorldUpdater.worldDeserted(pos, world, currentRadius, ((ServerPlayerEntity) player));
             ServerTickEvent.syncCurrencyWithBar((ServerPlayerEntity) player);
             currentRadius++;
         } else {
