@@ -48,9 +48,9 @@ public class ModEntities {
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, UfoEntity::new)
                     .dimensions(EntityDimensions.fixed(1.0F, 1.0F)).build());
 
-    public static final EntityType<SandstormEntity> SANDSTORM_ENTITY = Registry.register(Registry.ENTITY_TYPE,
-            new Identifier(DesertWorld.MOD_ID, "sandstorm_entity"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SandstormEntity::new)
-                    .dimensions(EntityDimensions.fixed(1.0F, 1.0F)).build());
+//    public static final EntityType<SandstormEntity> SANDSTORM_ENTITY = Registry.register(Registry.ENTITY_TYPE,
+//            new Identifier(DesertWorld.MOD_ID, "sandstorm_entity"),
+//            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SandstormEntity::new)
+//                    .dimensions(EntityDimensions.fixed(1.0F, 1.0F)).build());
 
 }

@@ -11,21 +11,33 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.thesalutyt.utils.ServerUfoController;
-
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 
 public class ServerTickEvent {
     private static BlockPos cachedPos = null;
     private static final LinkedList<ServerTickCallback> callbacks = new LinkedList<>();
+    private static boolean sandstormActive = false;
+    private static BlockPos sandstormPos = null;
+    private static int ticksElapsed = 0;
+    private static final int GRAVITY_DELAY = 20;
+    private static int gravityDelayTicks = 0;
+    private static List<Entity> sandstormEntities = new ArrayList<>();
 
     public static void register() {
         ServerTickEvents.START_SERVER_TICK
@@ -36,10 +48,94 @@ public class ServerTickEvent {
                         for (ServerPlayerEntity player : minecraftServer.getPlayerManager().getPlayerList()) {
                             tickPlayer(player);
                             updateUfoMovement(player);
-                            //handleUfoLaser(player);
+                            tickSandstorm(player);
                         }
                     } catch (Exception ignored) {}
                 });
+    }
+
+    private static void moveEntitiesInSandstorm(ServerWorld world) {
+        if (sandstormPos == null) return;
+        sandstormEntities = world.getOtherEntities(null, new Box(sandstormPos.getX() - 5, sandstormPos.getY() - 5, sandstormPos.getZ() - 5, sandstormPos.getX() + 25, sandstormPos.getY() + 5, sandstormPos.getZ() + 5));
+        for (Entity entity : sandstormEntities) {
+            if (!(entity instanceof PlayerEntity)) {
+                Vec3d towards = new Vec3d(sandstormPos.getX(), sandstormPos.getY() + 1, sandstormPos.getZ()).subtract(entity.getPos()).normalize();
+                Vec3d move = towards.multiply(0.5D, 0.5D, 0.5D);
+                entity.setVelocity(move.x, move.y + 0.05D, move.z);
+                entity.setNoGravity(true);
+            }
+        }
+    }
+
+    private static void restoreGravityForEntities() {
+        if (sandstormPos == null) return;
+        for (Entity entity : sandstormEntities) {
+            if (!(entity instanceof PlayerEntity)) {
+                entity.setNoGravity(false);
+            }
+        }
+        sandstormEntities.clear();
+    }
+
+    private static void tickSandstorm(ServerPlayerEntity player) {
+        if (sandstormActive) {
+            if (ticksElapsed < 120) {
+                if (ticksElapsed % 5 == 0) {
+                    spawnSandstormParticles(player.getWorld(), sandstormPos);
+                    moveEntitiesInSandstorm(player.getWorld());
+                    WorldUpdater.worldDeserted(sandstormPos, player.getWorld(), 15);
+                    syncCurrencyWithBar(player);
+                }
+                ticksElapsed++;
+            } else {
+                sandstormActive = false;
+                gravityDelayTicks = GRAVITY_DELAY;
+            }
+        }
+        if (gravityDelayTicks > 0) {
+            gravityDelayTicks--;
+            if (gravityDelayTicks == 0) {
+                restoreGravityForEntities();
+            }
+        }
+    }
+
+    public static void startSandstorm(BlockPos pos) {
+        if (!sandstormActive) {
+            sandstormPos = pos;
+            sandstormActive = true;
+            ticksElapsed = 0;
+        }
+    }
+
+    private static void spawnSandstormParticles(World world, BlockPos pos) {
+        if (world instanceof ServerWorld serverWorld) {
+            int radius = 5;
+            // мне кажется шторм выглядит лучше если 200 стоит, но пусть так будет для оптимизации
+            int count = 100;
+            int layers = 8;
+            double step = radius / (double) layers;
+            for (int j = 0; j < layers; j++) {
+                double currentRadius = radius - step * j;
+                for (int i = 0; i < count; ++i) {
+                    float angle = (float) i / count * 6.2831855F;
+                    double cos = Math.cos(angle) * currentRadius;
+                    double sin = Math.sin(angle) * currentRadius;
+                    double height = pos.getY() + 7.5D - (j * 1.0D);
+                    serverWorld.spawnParticles(ParticleTypes.CLOUD,
+                            pos.getX() + cos,
+                            height,
+                            pos.getZ() + sin,
+                            1, 0.4D, 0.4D, 0.4D, 0.0D);
+                }
+            }
+        }
+    }
+
+    public static void handleSandstormItemUse(PlayerEntity user, World world) {
+        if (!world.isClient) {
+            startSandstorm(user.getBlockPos());
+        }
     }
 
     private static void updateUfoMovement(ServerPlayerEntity player) {
@@ -51,26 +147,6 @@ public class ServerTickEvent {
             if (ufoEntity != null) {
                 //System.out.println("Test3");
                 ufoEntity.moveToPlayer(player.getPos());
-            }
-        }
-    }
-
-
-    private static void handleUfoLaser(ServerPlayerEntity player) {
-        ItemStack stack = player.getMainHandStack();
-        if (!(stack.getItem() instanceof UfoControllerItem)) return;
-
-        UUID ufoID = ((UfoControllerItem) stack.getItem()).getUfoID();
-        ServerUfoController controller = ServerUfoController.getControllerByUUID(ufoID);
-        if (controller != null) {
-            HitResult hitResult = player.raycast(10, 0, false);
-            if (hitResult.getType() == HitResult.Type.BLOCK) {
-                BlockHitResult blockHitResult = (BlockHitResult) hitResult;
-                BlockPos blockPos = blockHitResult.getBlockPos();
-                controller.sendLaserParticles(player.getPos().add(0, 1.5, 0), new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
-            } else if (hitResult.getType() == HitResult.Type.ENTITY) {
-                Entity hitEntity = ((EntityHitResult) hitResult).getEntity();
-                controller.sendLaserParticles(player.getPos().add(0, 1.5, 0), hitEntity.getPos());
             }
         }
     }
@@ -95,7 +171,7 @@ public class ServerTickEvent {
 
         if (!player.getBlockPos().equals(cachedPos)) {
             cachedPos = player.getBlockPos();
-            WorldUpdater.worldDeserted(cachedPos, player.getWorld(), player);
+            WorldUpdater.worldDeserted(cachedPos, player.getWorld(), 3);
             syncCurrencyWithBar(player);
         }
     }

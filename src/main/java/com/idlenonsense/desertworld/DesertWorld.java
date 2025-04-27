@@ -4,7 +4,6 @@ import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.block.ModBlocks;
 import com.idlenonsense.desertworld.currency.DesertCurrency;
 import com.idlenonsense.desertworld.entity.ModEntities;
-import com.idlenonsense.desertworld.entity.SandstormEntity;
 import com.idlenonsense.desertworld.entity.client.UfoEntity;
 import com.idlenonsense.desertworld.events.ModEventListener;
 import com.idlenonsense.desertworld.events.ServerTickEvent;
@@ -46,7 +45,6 @@ public class DesertWorld implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(ModEntities.DESERT_GOLEM, SnowGolemEntity.createSnowGolemAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.DESERT_IRON_GOLEM, IronGolemEntity.createIronGolemAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.UFO_ENTITY, UfoEntity.createUfoAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntities.SANDSTORM_ENTITY, SandstormEntity.createSandstormAttributes());
 
 		UfoAttackHandler.registerServerReceiver();
 

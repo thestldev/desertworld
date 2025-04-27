@@ -1,23 +1,17 @@
 package com.idlenonsense.desertworld.util;
 
-import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.converter.BlocksConverter;
 import com.idlenonsense.desertworld.converter.EntitiesConverter;
-import com.idlenonsense.desertworld.currency.DesertCurrency;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-
 public class WorldUpdater {
     public static final int RADIUS = 3;
+    public static final int RADIUS_TEST = 15;
 
-    public static void worldDeserted(BlockPos pos, World world, ServerPlayerEntity player) {
+    /*public static void worldDeserted(BlockPos pos, World world) {
         worldDeserted(pos, world, RADIUS);
-    }
+    }*/
 
     public static void worldDeserted(BlockPos pos, World world, int radius) {
         try {
@@ -27,11 +21,11 @@ public class WorldUpdater {
         } catch (Exception ignored) { }
     }
 
-//    private static void updateCurrency() {
-//        updateCurrency(DesertBar.RATE_OF_PROGRESS);
-//    }
-//
-//    private static void updateCurrency(float amount) {
-//        DesertCurrency.getInstance().add(amount);
-//    }
+    public static void worldDesertedTest(BlockPos pos, World world) {
+        try {
+            if (world == null || pos == null || RADIUS_TEST < 1) return;
+            BlocksConverter.convertBlocksWithAffectOnCurrency(pos, world, RADIUS_TEST);
+            EntitiesConverter.convertEntities(pos, RADIUS_TEST, world);
+        } catch (Exception ignored) { }
+    }
 }

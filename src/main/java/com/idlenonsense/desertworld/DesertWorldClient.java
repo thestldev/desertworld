@@ -32,8 +32,6 @@ public class DesertWorldClient implements ClientModInitializer {
 //        EntityRendererRegistry.register(ModEntities.ALIEN_WITCH, AlienWitchRenderer::new);
 //        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.ALIEN_WITCH, WitchEntityModel::getTexturedModelData);
 
-        EntityRendererRegistry.register(ModEntities.SANDSTORM_ENTITY, SandstormRenderer::new);
-
         EntityRendererRegistry.register(ModEntities.UFO_ENTITY, UfoRenderer::new);
 
 
