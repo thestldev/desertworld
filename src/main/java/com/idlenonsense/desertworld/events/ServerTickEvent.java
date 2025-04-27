@@ -58,7 +58,7 @@ public class ServerTickEvent {
 
     private static void moveEntitiesInSandstorm(ServerWorld world) {
         if (sandstormPos == null) return;
-        sandstormEntities = world.getOtherEntities(null, new Box(sandstormPos.getX() - 5, sandstormPos.getY() - 5, sandstormPos.getZ() - 5, sandstormPos.getX() + 25, sandstormPos.getY() + 5, sandstormPos.getZ() + 5));
+        sandstormEntities = world.getOtherEntities(null, new Box(sandstormPos.getX() - 10, sandstormPos.getY() - 5, sandstormPos.getZ() - 10, sandstormPos.getX() + 10, sandstormPos.getY() + 25, sandstormPos.getZ() + 10));
         for (Entity entity : sandstormEntities) {
             if (!(entity instanceof PlayerEntity)) {
                 Vec3d towards = new Vec3d(sandstormPos.getX(), sandstormPos.getY() + 1, sandstormPos.getZ()).subtract(entity.getPos()).normalize();
