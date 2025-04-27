@@ -78,13 +78,17 @@ public class ServerTickEvent {
     }
 
     private static void tickSandstorm(ServerPlayerEntity player) {
+        //if (player.world.isClient) return;
+
         if (sandstormActive) {
             if (ticksElapsed < 120) {
                 if (ticksElapsed % 5 == 0) {
                     spawnSandstormParticles(player.getWorld(), sandstormPos);
                     moveEntitiesInSandstorm(player.getWorld());
-                    WorldUpdater.worldDeserted(sandstormPos, player.getWorld(), 15);
-                    syncCurrencyWithBar(player);
+
+                    // ни здесь, ни ниже по коду не конвертит блоки на сервере
+//                    WorldUpdater.worldDeserted(sandstormPos, player.getWorld(), 15);
+//                    syncCurrencyWithBar(player);
                 }
                 ticksElapsed++;
             } else {
@@ -135,6 +139,9 @@ public class ServerTickEvent {
     public static void handleSandstormItemUse(PlayerEntity user, World world) {
         if (!world.isClient) {
             startSandstorm(user.getBlockPos());
+
+            WorldUpdater.worldDeserted(sandstormPos, user.getWorld(), 15);
+            syncCurrencyWithBar((ServerPlayerEntity) user);
         }
     }
 
