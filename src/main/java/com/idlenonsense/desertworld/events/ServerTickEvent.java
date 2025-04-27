@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
 
+import static com.idlenonsense.desertworld.converter.BlocksConverter.convertBlocksWithAffectOnCurrency;
+
 public class ServerTickEvent {
     private static BlockPos cachedPos = null;
     private static final LinkedList<ServerTickCallback> callbacks = new LinkedList<>();
@@ -78,17 +80,17 @@ public class ServerTickEvent {
     }
 
     private static void tickSandstorm(ServerPlayerEntity player) {
-        //if (player.world.isClient) return;
-
         if (sandstormActive) {
             if (ticksElapsed < 120) {
                 if (ticksElapsed % 5 == 0) {
                     spawnSandstormParticles(player.getWorld(), sandstormPos);
                     moveEntitiesInSandstorm(player.getWorld());
 
-                    // ни здесь, ни ниже по коду не конвертит блоки на сервере
 //                    WorldUpdater.worldDeserted(sandstormPos, player.getWorld(), 15);
 //                    syncCurrencyWithBar(player);
+
+                    // только это сработало
+                    convertBlocksWithAffectOnCurrency(sandstormPos, player.getWorld(), 15);
                 }
                 ticksElapsed++;
             } else {
@@ -139,7 +141,6 @@ public class ServerTickEvent {
     public static void handleSandstormItemUse(PlayerEntity user, World world) {
         if (!world.isClient) {
             startSandstorm(user.getBlockPos());
-
             WorldUpdater.worldDeserted(sandstormPos, user.getWorld(), 15);
             syncCurrencyWithBar((ServerPlayerEntity) user);
         }
