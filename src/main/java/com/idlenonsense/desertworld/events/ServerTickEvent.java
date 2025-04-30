@@ -5,7 +5,6 @@ import com.idlenonsense.desertworld.bar.DesertBar;
 import com.idlenonsense.desertworld.currency.DesertCurrency;
 import com.idlenonsense.desertworld.entity.client.UfoEntity;
 import com.idlenonsense.desertworld.item.ModItems;
-import com.idlenonsense.desertworld.item.UfoControllerItem;
 import com.idlenonsense.desertworld.util.WorldUpdater;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
@@ -16,24 +15,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.thesalutyt.utils.ServerUfoController;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.ArrayList;
-
 import static com.idlenonsense.desertworld.converter.BlocksConverter.convertBlocksWithAffectOnCurrency;
 
 public class ServerTickEvent {
     private static BlockPos cachedPos = null;
-    private static final LinkedList<ServerTickCallback> callbacks = new LinkedList<>();
     private static boolean sandstormActive = false;
     private static BlockPos sandstormPos = null;
     private static int ticksElapsed = 0;
@@ -74,6 +66,13 @@ public class ServerTickEvent {
         for (Entity entity : sandstormEntities) {
             if (!(entity instanceof PlayerEntity)) {
                 entity.setNoGravity(false);
+                Vec3d currentVelocity = entity.getVelocity();
+                double randomAngle = Math.random() * 2 * Math.PI;
+                double randomSpeed = 0.5 + Math.random() * 0.5;
+                double xOffset = Math.cos(randomAngle) * randomSpeed;
+                double zOffset = Math.sin(randomAngle) * randomSpeed;
+                double yOffset = 0.3 + Math.random() * 0.2;
+                entity.setVelocity(currentVelocity.x + xOffset, currentVelocity.y + yOffset, currentVelocity.z + zOffset);
             }
         }
         sandstormEntities.clear();
@@ -82,16 +81,13 @@ public class ServerTickEvent {
     private static void tickSandstorm(ServerPlayerEntity player) {
         if (sandstormActive) {
             if (ticksElapsed < 120) {
-                if (ticksElapsed % 5 == 0) {
-                    spawnSandstormParticles(player.getWorld(), sandstormPos);
-                    moveEntitiesInSandstorm(player.getWorld());
-
-//                    WorldUpdater.worldDeserted(sandstormPos, player.getWorld(), 15);
-//                    syncCurrencyWithBar(player);
-
-                    // только это сработало
-                    convertBlocksWithAffectOnCurrency(sandstormPos, player.getWorld(), 15);
-                }
+                if (ticksElapsed < 120 - 20) {
+                    if (ticksElapsed % 5 == 0) {
+                        spawnSandstormParticles(player.getWorld(), sandstormPos);
+                        moveEntitiesInSandstorm(player.getWorld());
+                        convertBlocksWithAffectOnCurrency(sandstormPos, player.getWorld(), 15);
+                    }
+                } else { restoreGravityForEntities(); }
                 ticksElapsed++;
             } else {
                 sandstormActive = false;
@@ -117,7 +113,6 @@ public class ServerTickEvent {
     private static void spawnSandstormParticles(World world, BlockPos pos) {
         if (world instanceof ServerWorld serverWorld) {
             int radius = 5;
-            // мне кажется шторм выглядит лучше если 200 стоит, но пусть так будет для оптимизации
             int count = 100;
             int layers = 8;
             double step = radius / (double) layers;
@@ -159,13 +154,9 @@ public class ServerTickEvent {
         }
     }
 
-    public static void addCallback(ServerTickCallback callback) {
-        callbacks.add(callback);
-    }
-
     private static void tickPlayer(ServerPlayerEntity player) {
         pollPos(player);
-        pollAbilities(player);
+        pollAbilities();
         pollCallbacks(player);
     }
 
@@ -184,7 +175,7 @@ public class ServerTickEvent {
         }
     }
 
-    private static void pollAbilities(ServerPlayerEntity player) {
+    private static void pollAbilities() {
         Abilities.getInstance().enable(DesertCurrency.getInstance().get());
     }
 
@@ -200,10 +191,5 @@ public class ServerTickEvent {
                 || stack.getItem().equals(ModItems.CURSED_AXE)
                 || stack.getItem().equals(ModItems.CURSED_SHOVEL)
                 || stack.getItem().equals(ModItems.CURSED_SWORD);
-    }
-
-    @FunctionalInterface
-    public interface ServerTickCallback {
-        void tick(ServerPlayerEntity player);
     }
 }
